@@ -3,67 +3,16 @@ from tweepy import Cursor
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+
+from textblob import TextBlob
  
 import twitter_credentials
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import re
 import os
-
-
-
-# # # # TWITTER AUTHENTICATER # # # #
-class TwitterAuthenticator():
-
-    def authenticate_twitter_app(self):
-        auth = OAuthHandler(twitter_credentials.CONSUMER_KEY, twitter_credentials.CONSUMER_SECRET)
-        auth.set_access_token(twitter_credentials.ACCESS_TOKEN, twitter_credentials.ACCESS_SECRET)
-        return auth
-
-
-
-# # # # TWITTER STREAMER # # # #
-class TwitterStreamer():
-    """
-    Class for streaming and processing live tweets.
-    """
-    def __init__(self):
-        self.twitter_autenticator = TwitterAuthenticator()    
-
-    def stream_tweets(self, fetched_tweets_filename, hash_tag_list):
-        # This handles Twitter authetification and the connection to Twitter Streaming API
-        listener = TwitterListener(fetched_tweets_filename)
-        auth = self.twitter_autenticator.authenticate_twitter_app() 
-        stream = Stream(auth, listener)
-
-        # This line filter Twitter Streams to capture data by the keywords: 
-        stream.filter(track=hash_tag_list)
-
-
-
-# # # # TWITTER STREAM LISTENER # # # #
-class TwitterListener(StreamListener):
-    """
-    This is a basic listener that just prints received tweets to stdout.
-    """
-    def __init__(self, fetched_tweets_filename):
-        self.fetched_tweets_filename = fetched_tweets_filename
-
-    def on_data(self, data):
-        try:
-            print(data)
-            with open(self.fetched_tweets_filename, 'a') as tf:
-                tf.write(data)
-            return True
-        except BaseException as e:
-            print("Error on_data %s" % str(e))
-        return True
-          
-    def on_error(self, status):
-        if status == 420:
-            # Returning False on_data method in case rate limit occurs.
-            return False
-        print(status)
 
 
 # # # # TWITTER CLIENT # # # #
@@ -96,12 +45,77 @@ class TwitterClient():
         return home_timeline_tweets
 
 
+# # # # TWITTER AUTHENTICATER # # # #
+class TwitterAuthenticator():
+
+    def authenticate_twitter_app(self):
+        auth = OAuthHandler(twitter_credentials.CONSUMER_KEY, twitter_credentials.CONSUMER_SECRET)
+        auth.set_access_token(twitter_credentials.ACCESS_TOKEN, twitter_credentials.ACCESS_TOKEN_SECRET)
+        return auth
+
+# # # # TWITTER STREAMER # # # #
+class TwitterStreamer():
+    """
+    Class for streaming and processing live tweets.
+    """
+    def __init__(self):
+        self.twitter_autenticator = TwitterAuthenticator()    
+
+    def stream_tweets(self, fetched_tweets_filename, hash_tag_list):
+        # This handles Twitter authetification and the connection to Twitter Streaming API
+        listener = TwitterListener(fetched_tweets_filename)
+        auth = self.twitter_autenticator.authenticate_twitter_app() 
+        stream = Stream(auth, listener)
+
+        # This line filter Twitter Streams to capture data by the keywords: 
+        stream.filter(track=hash_tag_list)
+
+
+# # # # TWITTER STREAM LISTENER # # # #
+class TwitterListener(StreamListener):
+    """
+    This is a basic listener that just prints received tweets to stdout.
+    """
+    def __init__(self, fetched_tweets_filename):
+        self.fetched_tweets_filename = fetched_tweets_filename
+
+    def on_data(self, data):
+        try:
+            print(data)
+            with open(self.fetched_tweets_filename, 'a') as tf:
+                tf.write(data)
+            return True
+        except BaseException as e:
+            print("Error on_data %s" % str(e))
+        return True
+          
+    def on_error(self, status):
+        if status == 420:
+            # Returning False on_data method in case rate limit occurs.
+            return False
+        print(status)
+
+
 class TweetAnalyzer():
     """
     Functionality for analyzing and categorizing content from tweets.
     """
+
+    def clean_tweet(self, tweet):
+        return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+
+    def analyze_sentiment(self, tweet):
+        analysis = TextBlob(self.clean_tweet(tweet))
+        
+        if analysis.sentiment.polarity > 0:
+            return 1
+        elif analysis.sentiment.polarity == 0:
+            return 0
+        else:
+            return -1
+
     def tweets_to_data_frame(self, tweets):
-        df = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
+        df = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['tweets'])
 
         df['id'] = np.array([tweet.id for tweet in tweets])
         df['len'] = np.array([len(tweet.text) for tweet in tweets])
@@ -112,54 +126,24 @@ class TweetAnalyzer():
 
         return df
 
+ 
 if __name__ == '__main__':
 
     twitter_client = TwitterClient()
     tweet_analyzer = TweetAnalyzer()
 
     api = twitter_client.get_twitter_client_api()
-
     name = input("Whose tweets would you like to scrap? write the username")
+    tweets = api.user_timeline(screen_name=name, count=200)
 
-    tweets = api.user_timeline(screen_name=name, count=20)
-
-    #print(dir(tweets[0]))
-    #print(tweets[0].retweet_count)
 
     df = tweet_analyzer.tweets_to_data_frame(tweets)
-    os.chdir("C:\\Users\\acer\Documents\studyMaterial\projects\TwitterSentiment\\04_Visualizing_tweets")
+    df['sentiment'] = np.array([tweet_analyzer.analyze_sentiment(tweet) for tweet in df['tweets']])
+
+    os.chdir("C:\\Users\\acer\Documents\studyMaterial\projects\TwitterSentiment\\05_Sentiment_analysis")
 
     filename= os.getcwd()+'\\'+name+'.csv'
+    print(filename)
     df.to_csv(filename,index=False)
 
-    # Get average length over all tweets:
-    print(np.mean(df['len']))
-
-    # Get the number of likes for the most liked tweet:
-    print(np.max(df['likes']))
-
-    # Get the number of retweets for the most retweeted tweet:
-    print(np.max(df['retweets']))
-    
-    #print(df.head(10))
-
-    #Time Series
-    time_likes = pd.Series(data=df['len'].values, index=df['date'])
-    time_likes.plot(figsize=(16, 4), color='r')
-    plt.show()
-
-    time_favs = pd.Series(data=df['likes'].values, index=df['date'])
-    time_favs.plot(figsize=(16, 4), color='r')
-    plt.show()
-
-    time_retweets = pd.Series(data=df['retweets'].values, index=df['date'])
-    time_retweets.plot(figsize=(16, 4), color='r')
-    plt.show()
-
-    #Layered Time Series:
-    time_likes = pd.Series(data=df['likes'].values, index=df['date'])
-    time_likes.plot(figsize=(16, 4), label="likes", legend=True)
-
-    time_retweets = pd.Series(data=df['retweets'].values, index=df['date'])
-    time_retweets.plot(figsize=(16, 4), label="retweets", legend=True)
-    plt.show()
+    print(df.head(10))
