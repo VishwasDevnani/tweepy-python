@@ -1,0 +1,38 @@
+Tweets,id,len,date,source,likes,retweets
+@MIT_CSAIL @StackOverflow Turning philosophy into science %Too short,1367918763497127942,68,2021-03-05 19:23:42,Twitter Web App,207,19
+"RT @MIT_CSAIL: Describe coding in exactly six words.
+
+We’ll RT all the best ones.
+
+From the folks @StackOverflow:
+
+Build. Deploy. Test. Deb…",1367918037664493569,140,2021-03-05 19:20:49,Twitter Web App,0,144
+"@rishabh16_ @hardmaru Laura Culp, Sara Sabour and I are testing the idea that the embedding vector for a part can c… https://t.co/K24XAqIONp",1365421717208903680,140,2021-02-26 22:01:20,Twitter Web App,68,9
+"I have a new paper on how to represent part-whole hierarchies in neural networks. 
+
+https://t.co/4hYb7MJ1SF",1365311399287808002,107,2021-02-26 14:42:58,Twitter Web App,3066,645
+Finding the natural parts of an object and their intrinsic coordinate frames without supervision is a crucial step… https://t.co/LmbUP57Ivq,1337074521585618944,139,2020-12-10 16:39:42,Twitter Web App,975,187
+"RT @taiyasaki: Our new paper ""𝐔𝐧𝐬𝐮𝐩𝐞𝐫𝐯𝐢𝐬𝐞𝐝 𝐩𝐚𝐫𝐭 𝐫𝐞𝐩𝐫𝐞𝐬𝐞𝐧𝐭𝐚𝐭𝐢𝐨𝐧 𝐛𝐲 𝐅𝐥𝐨𝐰 𝐂𝐚𝐩𝐬𝐮𝐥𝐞𝐬"" is out https://t.co/0t4XH4FH8H
+
+TL;DR: are newborns expose…",1333509663598518278,140,2020-11-30 20:34:13,Twitter Web App,0,60
+"RT @A_Paccanaro: Read my latest #research on #MachineLearning applied to #DrugSideEffectsPrediction, published with @SpringerNature in @Nat…",1304541930391564288,140,2020-09-11 22:06:48,Twitter Web App,0,88
+"My wonderful former graduate student, Roland Memisevic, used neural networks to make a great fitness app:
+
+https://t.co/KYJXWHfufB",1296599857638125568,130,2020-08-21 00:07:50,Twitter Web App,582,84
+"RT @taiyasaki: Source code and full talk for 𝗡𝗔𝗦𝗔: 𝗡𝗲𝘂𝗿𝗮𝗹 𝗔𝗿𝘁𝗶𝗰𝘂𝗹𝗮𝘁𝗲𝗱 𝗦𝗵𝗮𝗽𝗲 𝗔𝗽𝗽𝗿𝗼𝘅𝗶𝗺𝗮𝘁𝗶𝗼𝗻 is now available – links 👇👇
+
+Talk @ #ECCV2020 → h…",1296492240848723968,140,2020-08-20 17:00:12,Twitter Web App,0,47
+"RT @taiyasaki: Do you like implicit functions to model 3D geometry?
+We show that ""Neural Articulated Shape Approximation"" improves the appr…",1286344420640595969,140,2020-07-23 16:56:23,Twitter Web App,0,65
+A non-linearity that works much better than ReLUs. The work described in this video might also be relevant to under… https://t.co/pnZwTeTNVR,1273686900285603843,140,2020-06-18 18:39:55,Twitter Web App,2910,754
+I thought I had a very good idea about perceptual learning and accepted several invitations to give talks about it… https://t.co/HNxF43VlLv,1273328639673806851,139,2020-06-17 18:56:19,Twitter Web App,6494,430
+"Extrapolating the spectacular performance of GPT3 into the future suggests that the answer to life, the universe an… https://t.co/RPUlvEunR3",1270814602931187715,140,2020-06-10 20:26:26,Twitter Web App,3850,683
+@ilyasut Doing something of your own free will means the decision to do it was based on your own goals and desires.… https://t.co/uHLvHwSIzG,1265156043857965057,140,2020-05-26 05:41:20,Twitter Web App,397,43
+My friend @Jordanjacobs10 of @RadicalVCFund asked what I thought of the @covariantAI team and technology. I told hi… https://t.co/PSMuuqAmI4,1258143109344624643,140,2020-05-06 21:14:27,Twitter Web App,491,55
+RT @taiyasaki: Do you need differentiable convex hulls? Take a look at our CvxNet work https://t.co/f784Y6xjWh https://t.co/sKRdLjXIOW,1253518484589461505,134,2020-04-24 02:57:50,Twitter Web App,0,51
+This is a really neat way of using neural networks to get rid of polygonal meshes. The interaction of computer grap… https://t.co/oQHtxkrR7u,1253517893540732928,140,2020-04-24 02:55:29,Twitter Web App,1017,216
+"RT @taiyasaki: NASA: Neural Articulated Shape Approximation
+
+Representing characters and deformable shapes without polygonal meshes for 3D…",1253516857497325569,139,2020-04-24 02:51:22,Twitter Web App,0,80
+The sequence modeling group at the Toronto lab of Google Research has some really impressive new work on generating… https://t.co/73WlHcpCiL,1253515367223361542,140,2020-04-24 02:45:27,Twitter Web App,219,48
+This is really nice work https://t.co/qAIJOGgL7P,1253513902614360065,48,2020-04-24 02:39:38,Twitter Web App,201,30
